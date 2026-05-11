@@ -1,0 +1,27 @@
+import asyncio
+from aiogram import Bot, Dispatcher, types
+
+TOKEN = "8627495273:AAEsc7q2fwiZvA3ET2hNq2YRxkiBJr3iwJE"
+CHANNEL = "@RTPbox_news_neoff"
+
+bot = Bot(token=TOKEN)
+dp = Dispatcher()
+
+@dp.channel_post()
+async def auto_reaction(message: types.Message):
+    try:
+        await bot.set_message_reaction(
+            chat_id=CHANNEL,
+            message_id=message.message_id,
+            reaction=[types.ReactionTypeEmoji(emoji="🔥")]
+        )
+        print(f"✅ Реакция на пост {message.message_id}")
+    except Exception as e:
+        print(f"❌ Ошибка: {e}")
+
+async def main():
+    print("🤖 Бот запущен")
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
